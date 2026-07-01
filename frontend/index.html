@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Retirement Planner</title>
+    <!--
+      VULN: A08 Software or Data Integrity Failures - CWE-353 Missing
+      Support for Integrity Check. This third-party charting script is
+      loaded from a public CDN without a Subresource Integrity (`integrity`)
+      hash or `crossorigin` attribute, so if the CDN or the file in transit
+      is ever compromised, the browser will execute the tampered script
+      with no way to detect it.
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
