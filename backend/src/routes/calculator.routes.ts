@@ -139,6 +139,9 @@ calculatorRouter.post('/custom', (req, res, next) => {
 
     res.json({ result });
   } catch (err) {
+    if (err instanceof Error) {
+      return res.status(400).json({ error: err.message });
+    }
     next(err);
   }
 });

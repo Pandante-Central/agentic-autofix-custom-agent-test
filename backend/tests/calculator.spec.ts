@@ -44,7 +44,7 @@ describe('Calculator routes', () => {
       .set('Authorization', 'Bearer ' + token)
       .send({ formula: "this.constructor.constructor('return 7')()", variables: {} });
 
-    expect(res.status).toBe(500);
+    expect(res.status).toBe(400);
     expect(res.body.error).toMatch(/Unsupported character|Invalid formula|Invalid number/);
   });
 });
