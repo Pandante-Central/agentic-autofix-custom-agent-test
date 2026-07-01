@@ -22,7 +22,7 @@ describe('Calculator routes', () => {
   it('evaluates a simple custom formula with variables', async () => {
     const res = await request(app)
       .post('/api/calculator/custom')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', 'Bearer ' + token)
       .send({ formula: 'balance * 1.1 + contribution', variables: { balance: 1000, contribution: 100 } });
 
     expect(res.status).toBe(200);
@@ -32,9 +32,19 @@ describe('Calculator routes', () => {
   it('requires a formula string', async () => {
     const res = await request(app)
       .post('/api/calculator/custom')
-      .set('Authorization', `Bearer ${token}`)
+      .set('Authorization', 'Bearer ' + token)
       .send({ variables: { balance: 1000 } });
 
     expect(res.status).toBe(400);
+  });
+
+  it('rejects non-arithmetic formula payloads', async () => {
+    const res = await request(app)
+      .post('/api/calculator/custom')
+      .set('Authorization', 'Bearer ' + token)
+      .send({ formula: "this.constructor.constructor('return 7')()", variables: {} });
+
+    expect(res.status).toBe(500);
+    expect(res.body.error).toMatch(/Unsupported character|Invalid formula|Invalid number/);
   });
 });
